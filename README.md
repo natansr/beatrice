@@ -1,107 +1,109 @@
 # BEATRICE
 
-Book Extraction And Transcription with Review, Image Correction and Export
+**Book Extraction And Transcription with Review, Image Correction and Export**
 
-BEATRICE is a browser-based workspace for transcribing scanned books and historical printed documents. It keeps the source image, raw OCR output, and reviewed transcription as separate records.
+BEATRICE is a web application for OCR, transcription, and review of scanned books and historical printed documents.
 
-[Open BEATRICE](https://natansr.github.io/beatrice/)
+It runs entirely in the browser. Projects, images, OCR results, and reviewed text are stored locally using IndexedDB.
 
-English and Brazilian Portuguese are available from the language switcher in the header.
+## Features
 
-## What it does
+- Project and page management
+- Multiple image upload
+- JPG, PNG, TIFF, and WEBP support
+- Missing page detection
+- Image rotation and preprocessing
+- OCR with Tesseract.js
+- Portuguese and English interface
+- Separate raw OCR, reviewed text, and normalized text
+- Autosave and page review status
+- TXT, Markdown, HTML, DOCX, PDF, and JSON export
 
-- Organizes pages into projects.
-- Stores projects and images locally in IndexedDB.
-- Imports JPG, PNG, TIFF, and WEBP files.
-- Detects gaps in page numbering.
-- Applies grayscale, contrast, threshold, rotation, and resizing in the browser.
-- Runs Portuguese or English OCR with Tesseract.js.
-- Keeps raw OCR separate from reviewed and normalized text.
-- Saves edits automatically and tracks page status.
-- Exports TXT, Markdown, HTML, DOCX, PDF, and JSON.
+## Development
 
-The application does not upload documents to a BEATRICE server. Processing and storage happen in the browser.
+Requirements:
 
-## Running locally
+- Node.js 22 or later
+- npm
 
-Node.js 22 or later is recommended.
+Install the dependencies and start the development server:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Production build:
+Create a production build:
+
+```bash
+npm run build
+```
+
+Run the tests:
 
 ```bash
 npm test
-npm run build
-npm run preview
 ```
-
-The Vite base path is `/beatrice/`, matching the GitHub Pages project URL.
 
 ## Project structure
 
 ```text
 src/
-  i18n.js                 English and Portuguese interface strings
-  main.js                 application entry point
-  router.js               hash-based routing
+  i18n.js
+  main.js
+  router.js
   services/
-    database.js           IndexedDB storage
-    image-service.js      image validation, TIFF decoding, and Canvas processing
-    ocr-service.js        Tesseract.js integration
-    export-service.js     TXT, Markdown, HTML, DOCX, PDF, and JSON exports
-    project-service.js    project statistics and missing-page detection
-  ui/                     dashboard, project, review, and export views
+  ui/
+  styles.css
 ```
 
-The original FastAPI prototype remains in the repository history and under `app/`. It is not included in the GitHub Pages build.
+- `services/database.js`: IndexedDB storage
+- `services/image-service.js`: image validation and processing
+- `services/ocr-service.js`: Tesseract.js integration
+- `services/export-service.js`: document export
+- `ui/`: application screens
+- `i18n.js`: Portuguese and English translations
 
-## Data and privacy
+## Notes
 
-Projects belong to the browser profile and the `natansr.github.io` origin. Clearing site data can remove them. Private browsing should not be used for long transcription work. Export work regularly until full project backup and restore are implemented.
+- Data is stored in the current browser profile.
+- Clearing site data removes locally stored projects.
+- The first OCR run downloads the selected Tesseract language model.
+- Large images may require significant browser memory.
 
-The first OCR run downloads the Tesseract worker and the selected language model. Later runs may use the browser cache.
-
-## Tests
-
-```bash
-npm test
-npm audit
-```
-
-GitHub Actions runs the tests and production build before deploying to Pages.
-
-## Current limitations
-
-- Projects do not synchronize between devices.
-- Storage capacity depends on the browser quota.
-- For multi-page TIFF files, only the first image is displayed.
-- Large images and PDFs can require substantial memory.
-- There is no PDF import, TEI XML export, or collaborative editing yet.
+---
 
 ## Português
 
-O BEATRICE é uma aplicação local-first para transcrição e revisão de livros digitalizados e documentos históricos. Projetos, imagens e textos ficam armazenados no IndexedDB do navegador. O OCR é executado localmente com Tesseract.js, sem envio dos documentos para um servidor do BEATRICE.
+BEATRICE é uma aplicação web para OCR, transcrição e revisão de livros digitalizados e documentos históricos impressos.
 
-A interface pode ser alternada entre português e inglês pelo botão no cabeçalho. A aplicação preserva separadamente a imagem original, o OCR bruto, a transcrição revisada e o texto normalizado.
+A aplicação funciona inteiramente no navegador. Projetos, imagens, resultados do OCR e textos revisados são armazenados localmente com IndexedDB.
 
-Para executar localmente:
+### Funcionalidades
+
+- Gerenciamento de projetos e páginas
+- Upload múltiplo de imagens
+- Suporte a JPG, PNG, TIFF e WEBP
+- Detecção de páginas ausentes
+- Rotação e pré-processamento de imagens
+- OCR com Tesseract.js
+- Interface em português e inglês
+- OCR bruto, texto revisado e texto normalizado separados
+- Salvamento automático e status de revisão
+- Exportação TXT, Markdown, HTML, DOCX, PDF e JSON
+
+### Execução
 
 ```bash
 npm install
 npm run dev
 ```
 
-Antes de contribuir, execute:
+Testes e build:
 
 ```bash
 npm test
 npm run build
 ```
 
-## License
-
-No license has been selected yet.
+Os dados ficam armazenados no navegador. A limpeza dos dados do site remove os projetos locais.
