@@ -1,0 +1,2 @@
+"""BEATRICE application package."""
+

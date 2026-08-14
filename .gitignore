@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+beatrice.db
+test_beatrice.db
+test_data/
+data/projects/*
+!data/projects/.gitkeep
