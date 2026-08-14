@@ -1,10 +1,9 @@
 const messages = {
   'pt-BR': {
-    localFirst: 'Local-first', projects: 'Projetos', preservation: 'Preservação documental no seu navegador',
-    intro: 'Transcrição fiel, revisão humana e exportação reproduzível.', newProject: 'Novo projeto',
+    localFirst: 'Dados locais', projects: 'Projetos', newProject: 'Novo projeto',
     beginnerTitle: 'Como funciona?', beginnerFlow: '1. Crie um projeto. 2. Adicione imagens das páginas. 3. Execute o reconhecimento de texto. 4. Compare o resultado com a imagem e corrija. 5. Exporte o documento.',
     ocrMeaning: 'OCR significa Reconhecimento Óptico de Caracteres. Ele identifica letras em uma imagem e cria um texto editável. O resultado pode conter erros e sempre deve ser revisado.',
-    localMeaning: 'Local-first significa que imagens e textos ficam armazenados neste navegador, sem envio para um servidor do BEATRICE.',
+    localMeaning: 'Imagens e textos ficam armazenados neste navegador. Eles não são enviados para um servidor do BEATRICE.',
     updated: 'Atualizado', startTranscription: 'Comece uma transcrição', startHint: 'Crie um projeto. Seus dados permanecem neste dispositivo.',
     title: 'Título', author: 'Autor', authorMissing: 'Autor não informado', ocrLanguage: 'Idioma OCR', mode: 'Modo',
     diplomatic: 'Transcrição diplomática', normalized: 'Transcrição normalizada', description: 'Descrição', handwritten: 'Incluir notas marginais manuscritas',
@@ -29,11 +28,10 @@ const messages = {
     pageMarker: 'PÁGINA', metadataAuthor: 'Autor', localeCode: 'pt-BR', languageName: 'English',
   },
   'en-US': {
-    localFirst: 'Local-first', projects: 'Projects', preservation: 'Document preservation in your browser',
-    intro: 'Faithful transcription, human review, and reproducible exports.', newProject: 'New project',
+    localFirst: 'Local data', projects: 'Projects', newProject: 'New project',
     beginnerTitle: 'How does it work?', beginnerFlow: '1. Create a project. 2. Add page images. 3. Run text recognition. 4. Compare the result with the image and correct it. 5. Export the document.',
     ocrMeaning: 'OCR means Optical Character Recognition. It identifies letters in an image and produces editable text. The result may contain mistakes and should always be reviewed.',
-    localMeaning: 'Local-first means that images and text are stored in this browser and are not sent to a BEATRICE server.',
+    localMeaning: 'Images and text are stored in this browser. They are not sent to a BEATRICE server.',
     updated: 'Updated', startTranscription: 'Start a transcription', startHint: 'Create a project. Your data stays on this device.',
     title: 'Title', author: 'Author', authorMissing: 'Author not provided', ocrLanguage: 'OCR language', mode: 'Mode',
     diplomatic: 'Diplomatic transcription', normalized: 'Normalized transcription', description: 'Description', handwritten: 'Include handwritten marginal notes',

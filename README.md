@@ -43,7 +43,7 @@ If a passage cannot be read reliably, use a visible marker such as `[illegible]`
 
 ## Storage and privacy
 
-BEATRICE is local-first: images and transcriptions are stored in IndexedDB, a database provided by the browser. Documents are not sent to a BEATRICE server.
+Images and transcriptions are stored in IndexedDB, a database provided by the browser. Documents are not sent to a BEATRICE server.
 
 Clearing the browser's site data removes locally stored projects. Avoid private browsing for long-term work and export your transcriptions regularly.
 
