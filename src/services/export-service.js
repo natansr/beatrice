@@ -6,16 +6,16 @@ const selectedPages = (project, options) => project.pages
 export function buildTxt(project, options) {
   const chunks = options.includeMetadata ? [`${project.title}\n${project.author}`.trim()] : []
   for (const page of selectedPages(project, options)) {
-    const marker = options.includePageNumbers ? `${'='.repeat(20)}\nPÁGINA ${page.pageNumber}\n${'='.repeat(20)}\n` : ''
+    const marker = options.includePageNumbers ? `${'='.repeat(20)}\n${t('pageMarker')} ${page.pageNumber}\n${'='.repeat(20)}\n` : ''
     chunks.push(marker + textFor(page, options))
   }
   return chunks.join('\n\n')
 }
 
 export function buildMarkdown(project, options) {
-  const chunks = options.includeMetadata ? [`# ${project.title}\n\n**Autor:** ${project.author}`] : []
+  const chunks = options.includeMetadata ? [`# ${project.title}\n\n**${t('metadataAuthor')}:** ${project.author}`] : []
   for (const page of selectedPages(project, options)) {
-    chunks.push(`${options.includePageNumbers ? `## Página ${page.pageNumber}\n\n` : ''}${textFor(page, options)}`)
+    chunks.push(`${options.includePageNumbers ? `## ${t('page')} ${page.pageNumber}\n\n` : ''}${textFor(page, options)}`)
   }
   return chunks.join('\n\n')
 }
@@ -24,11 +24,11 @@ const escapeHtml = value => value.replace(/[&<>"']/g, character => ({ '&': '&amp
 export function buildHtml(project, options) {
   const header = options.includeMetadata ? `<header><h1>${escapeHtml(project.title)}</h1><p>${escapeHtml(project.author)}</p></header>` : ''
   const pages = selectedPages(project, options).map(page => {
-    const heading = options.includePageNumbers ? `<h2>Página ${page.pageNumber}</h2>` : ''
+    const heading = options.includePageNumbers ? `<h2>${t('page')} ${page.pageNumber}</h2>` : ''
     const paragraphs = textFor(page, options).split(/\n\n+/).map(p => `<p>${escapeHtml(p).replaceAll('\n', '<br>')}</p>`).join('')
     return `<section data-page="${page.pageNumber}">${heading}${paragraphs}</section>`
   }).join('')
-  return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${escapeHtml(project.title)}</title></head><body><article>${header}${pages}</article></body></html>`
+  return `<!doctype html><html lang="${t('localeCode')}"><head><meta charset="utf-8"><title>${escapeHtml(project.title)}</title></head><body><article>${header}${pages}</article></body></html>`
 }
 
 export function buildJson(project, options) {
@@ -47,7 +47,7 @@ export async function buildDocx(project, options) {
     if (options.titlePage) children.push(new Paragraph({ children: [new PageBreak()] }))
   }
   selectedPages(project, options).forEach((page, index, pages) => {
-    if (options.includePageNumbers) children.push(new Paragraph({ text: `Página ${page.pageNumber}`, heading: HeadingLevel.HEADING_2 }))
+    if (options.includePageNumbers) children.push(new Paragraph({ text: `${t('page')} ${page.pageNumber}`, heading: HeadingLevel.HEADING_2 }))
     textFor(page, options).split(/\n\n+/).forEach(text => children.push(new Paragraph(text)))
     if (options.preserveBoundaries && index < pages.length - 1) children.push(new Paragraph({ children: [new PageBreak()] }))
   })
@@ -71,7 +71,7 @@ export async function buildPdf(project, options) {
     if (options.titlePage) { pdf.addPage(); y = margin }
   }
   selectedPages(project, options).forEach((page, index, pages) => {
-    if (options.includePageNumbers) write(`Página ${page.pageNumber}`, 15)
+    if (options.includePageNumbers) write(`${t('page')} ${page.pageNumber}`, 15)
     write(textFor(page, options), 11)
     if (options.preserveBoundaries && index < pages.length - 1) { pdf.addPage(); y = margin }
   })
@@ -92,3 +92,4 @@ export function downloadBlob(blob, filename) {
   anchor.href = url; anchor.download = filename; anchor.click()
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
+import { t } from '../i18n.js'

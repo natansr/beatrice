@@ -6,8 +6,7 @@ const options = { transcription: 'diplomatic', includePageNumbers: true, include
 
 describe('text exporters', () => {
   it('preserves diplomatic spelling in TXT', () => expect(buildTxt(project, options)).toContain('sôbre êste'))
-  it('adds Markdown page headings', () => expect(buildMarkdown(project, options)).toContain('## Página 112'))
+  it('adds localized Markdown page headings', () => expect(buildMarkdown(project, options)).toContain('## Page 112'))
   it('creates semantic HTML and escapes text', () => expect(buildHtml({ ...project, title: '<obra>' }, options)).toContain('&lt;obra&gt;'))
   it('keeps raw and reviewed text in JSON', () => { const data = JSON.parse(buildJson(project, options)); expect(data.software).toBe('BEATRICE'); expect(data.pages[0].ocr_text).toBe('sobre'); expect(data.pages).toHaveLength(1) })
 })
-

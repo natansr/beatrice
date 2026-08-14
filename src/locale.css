@@ -1,0 +1,6 @@
+.header-actions { display: flex; align-items: center; gap: .6rem; }
+.locale-toggle { font-size: .75rem; padding: .35rem .7rem; }
+
+@media (max-width: 900px) {
+  .locale-toggle { display: inline-flex; }
+}
