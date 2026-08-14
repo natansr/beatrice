@@ -1,5 +1,19 @@
 .header-actions { display: flex; align-items: center; gap: .6rem; }
 .locale-toggle { font-size: .75rem; padding: .35rem .7rem; }
+.getting-started, .help-note, .inline-help {
+  margin: 0 0 1.25rem;
+  padding: .9rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid #829d90;
+  background: #fff;
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.5;
+}
+.getting-started summary, .inline-help summary { color: var(--ink); cursor: pointer; font-weight: 700; }
+.getting-started p:last-child, .inline-help p:last-child { margin-bottom: 0; }
+.inline-help { margin: 0; border-width: 0 0 1px; border-left-width: 4px; }
+.form-grid small { color: var(--muted); font-weight: 400; line-height: 1.35; }
 
 @media (max-width: 900px) {
   .locale-toggle { display: inline-flex; }
