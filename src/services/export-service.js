@@ -79,6 +79,9 @@ export async function buildPdf(project, options) {
 }
 
 export async function createExport(project, options) {
+  const pages = selectedPages(project, options)
+  if (!pages.length) throw new Error(t('noPagesToExport'))
+  if (!pages.some(page => textFor(page, options)?.trim())) throw new Error(t('noTextToExport'))
   const format = options.format
   if (format === 'docx') return { blob: await buildDocx(project, options), extension: 'docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }
   if (format === 'pdf') return { blob: await buildPdf(project, options), extension: 'pdf', type: 'application/pdf' }
@@ -89,7 +92,8 @@ export async function createExport(project, options) {
 
 export function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob), anchor = document.createElement('a')
-  anchor.href = url; anchor.download = filename; anchor.click()
-  setTimeout(() => URL.revokeObjectURL(url), 1000)
+  anchor.href = url; anchor.download = filename; anchor.hidden = true
+  document.body.append(anchor); anchor.click(); anchor.remove()
+  setTimeout(() => URL.revokeObjectURL(url), 10000)
 }
 import { t } from '../i18n.js'

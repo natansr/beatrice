@@ -8,5 +8,7 @@ __pycache__/
 beatrice.db
 test_beatrice.db
 test_data/
+example/
+.DS_Store
 data/projects/*
 !data/projects/.gitkeep
