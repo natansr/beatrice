@@ -4,7 +4,7 @@ import { getLocale, t, toggleLocale } from '../i18n.js'
 export function shell(content) {
   document.documentElement.lang = getLocale()
   setTimeout(() => { const button = document.querySelector('#locale-toggle'); if (button) button.onclick = () => { toggleLocale(); location.reload() } })
-  return `<header class="site-header"><a class="brand" href="#/"><strong>BEATRICE</strong><small>${APP_FULL_NAME}</small></a><div class="header-actions"><button id="locale-toggle" class="locale-toggle">${t('languageName')}</button><span class="local-badge">● ${t('localFirst')}</span></div></header><main>${content}</main>`
+  return `<header class="site-header"><a class="brand" href="#/"><strong>BEATRICE</strong><small>${APP_FULL_NAME}</small></a><button id="locale-toggle" class="locale-toggle">${t('languageName')}</button></header><main>${content}</main>`
 }
 
 export const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
