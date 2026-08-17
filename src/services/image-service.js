@@ -50,9 +50,27 @@ export async function processImage(blob, options = {}) {
   const context = canvas.getContext('2d', { willReadFrequently: true })
   context.drawImage(image, 0, 0, canvas.width, canvas.height)
   const pixels = context.getImageData(0, 0, canvas.width, canvas.height)
-  const contrast = options.contrast ?? 1.2
+  const backgroundSource = document.createElement('canvas')
+  const backgroundScale = Math.min(1, 180 / Math.max(canvas.width, canvas.height))
+  backgroundSource.width = Math.max(1, Math.round(canvas.width * backgroundScale))
+  backgroundSource.height = Math.max(1, Math.round(canvas.height * backgroundScale))
+  backgroundSource.getContext('2d').drawImage(canvas, 0, 0, backgroundSource.width, backgroundSource.height)
+  const backgroundCanvas = document.createElement('canvas')
+  backgroundCanvas.width = backgroundSource.width; backgroundCanvas.height = backgroundSource.height
+  const backgroundContext = backgroundCanvas.getContext('2d')
+  backgroundContext.filter = 'blur(4px)'
+  backgroundContext.drawImage(backgroundSource, 0, 0)
+  const background = document.createElement('canvas')
+  background.width = canvas.width; background.height = canvas.height
+  const expandedContext = background.getContext('2d', { willReadFrequently: true })
+  expandedContext.imageSmoothingEnabled = true
+  expandedContext.drawImage(backgroundCanvas, 0, 0, canvas.width, canvas.height)
+  const backgroundPixels = expandedContext.getImageData(0, 0, canvas.width, canvas.height)
+  const contrast = options.contrast ?? 1.12
   for (let i = 0; i < pixels.data.length; i += 4) {
     let gray = .299 * pixels.data[i] + .587 * pixels.data[i + 1] + .114 * pixels.data[i + 2]
+    const localBackground = .299 * backgroundPixels.data[i] + .587 * backgroundPixels.data[i + 1] + .114 * backgroundPixels.data[i + 2]
+    gray = Math.min(255, gray * 238 / Math.max(32, localBackground))
     gray = Math.max(0, Math.min(255, (gray - 128) * contrast + 128))
     if (options.threshold) gray = gray > (options.thresholdValue || 165) ? 255 : 0
     pixels.data[i] = pixels.data[i + 1] = pixels.data[i + 2] = gray

@@ -27,7 +27,13 @@ export async function renderReview(root, projectId, pageId) {
   root.querySelector('#ocr').onclick = async () => {
     const progress = root.querySelector('#ocr-progress'); progress.hidden = false; page.status = 'processing'; await savePage(page)
     try {
-      await addRevision(page, 'before_ocr'); const result = await runOcr(page.processedImage || originalDisplay, project.language || 'por', message => { if (message.progress != null) { progress.querySelector('div').style.width = `${message.progress * 100}%`; progress.querySelector('span').textContent = `${message.status} ${Math.round(message.progress * 100)}%` } })
+      await addRevision(page, 'before_ocr')
+      if (!page.processedImage) {
+        progress.querySelector('span').textContent = t('preparingImage')
+        page.processedImage = await processImage(originalDisplay)
+        await savePage(page)
+      }
+      const result = await runOcr(page.processedImage, project.language || 'por', message => { if (message.progress != null) { progress.querySelector('div').style.width = `${message.progress * 100}%`; progress.querySelector('span').textContent = `${message.status} ${Math.round(message.progress * 100)}%` } })
       page.rawOcrText = result.fullText; if (!page.reviewedText) page.reviewedText = result.fullText; page.ocrConfidence = result.meanConfidence; page.ocrBlocks = result.blocks; page.status = 'needs_review'; await savePage(page); await touchProject(project.id); await renderReview(root, project.id, page.id)
     } catch (error) { page.status = 'error'; await savePage(page); toast(t('ocrFailed', { message: error.message }), 'error'); await renderReview(root, project.id, page.id) }
   }

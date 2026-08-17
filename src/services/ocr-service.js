@@ -4,6 +4,11 @@ export async function runOcr(image, language = 'por', onProgress = () => {}) {
   const { createWorker } = await import('tesseract.js')
   activeWorker = await createWorker(language, 1, { logger: message => onProgress(message) })
   try {
+    await activeWorker.setParameters({
+      preserve_interword_spaces: '1',
+      tessedit_pageseg_mode: '3',
+      user_defined_dpi: '300',
+    })
     const { data } = await activeWorker.recognize(image)
     const blocks = (data.words || []).map(word => ({
       text: word.text, confidence: word.confidence,
